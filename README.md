@@ -24,6 +24,9 @@ Category filtering
 Search functionality
 Toast notifications
 Modern animations
+
+
+
 🛠️ Tech Stack
 Frontend
 React
@@ -33,6 +36,11 @@ Framer Motion
 React Hot Toast
 Lucide React
 React Icons
+
+
+
+
+
 📂 Folder Structure
 src/
 │
@@ -50,6 +58,11 @@ src/
 ├── App.jsx
 ├── main.jsx
 └── index.css
+
+
+
+
+
 ✨ Features
 User Features
 Responsive homepage
