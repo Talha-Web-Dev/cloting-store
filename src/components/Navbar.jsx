@@ -164,11 +164,6 @@ function Navbar() {
 
         <div className="mt-10 flex items-center justify-between border-t border-slate-800 pt-6 text-slate-400">
           <p className="text-sm">Style your next collection in motion.</p>
-          <div className="flex items-center gap-4 text-slate-300">
-            <a href="#" className="transition hover:text-white"><Instagram size={18} /></a>
-            <a href="#" className="transition hover:text-white"><Twitter size={18} /></a>
-            <a href="#" className="transition hover:text-white"><Facebook size={18} /></a>
-          </div>
         </div>
       </div>
     </nav>

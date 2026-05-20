@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-
+import {  Send } from "lucide-react";
+  
 function Footer() {
   return (
     <footer className="bg-slate-950 text-slate-100">
