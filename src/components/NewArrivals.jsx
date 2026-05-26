@@ -14,18 +14,18 @@ export default function NewArrivals() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20">
+    <section className="mx-auto max-w-7xl px-6 py-20 transition duration-500 dark:text-slate-100">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.24em] text-slate-500">New Arrivals</p>
-          <h2 className="mt-2 text-3xl font-semibold text-slate-900">Discover what's new this season</h2>
+          <p className="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">New Arrivals</p>
+          <h2 className="mt-2 text-3xl font-semibold text-slate-950 dark:text-white">Discover what's new this season</h2>
         </div>
 
         <div className="flex items-center gap-3">
-          <button aria-label="prev" onClick={() => scroll("left")} className="rounded-full bg-white p-2 shadow hover:bg-slate-50">
+          <button aria-label="prev" onClick={() => scroll("left")} className="rounded-full bg-white p-2 shadow transition hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800">
             <ChevronLeft size={18} />
           </button>
-          <button aria-label="next" onClick={() => scroll("right")} className="rounded-full bg-white p-2 shadow hover:bg-slate-50">
+          <button aria-label="next" onClick={() => scroll("right")} className="rounded-full bg-white p-2 shadow transition hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800">
             <ChevronRight size={18} />
           </button>
         </div>

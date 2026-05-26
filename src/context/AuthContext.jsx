@@ -8,11 +8,13 @@ const USERS_STORAGE = "lush-users"
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
+    if (typeof window === "undefined") return null
     const saved = localStorage.getItem(AUTH_STORAGE)
     return saved ? JSON.parse(saved) : null
   })
 
   useEffect(() => {
+    if (typeof window === "undefined") return
     if (user) {
       localStorage.setItem(AUTH_STORAGE, JSON.stringify(user))
     } else {
@@ -21,10 +23,12 @@ function AuthProvider({ children }) {
   }, [user])
 
   const getUsers = () => {
+    if (typeof window === "undefined") return []
     return JSON.parse(localStorage.getItem(USERS_STORAGE) || "[]")
   }
 
   const saveUsers = (users) => {
+    if (typeof window === "undefined") return
     localStorage.setItem(USERS_STORAGE, JSON.stringify(users))
   }
 

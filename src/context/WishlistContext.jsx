@@ -4,11 +4,13 @@ export const WishlistContext = createContext()
 
 function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState(() => {
+    if (typeof window === "undefined") return []
     const savedWishlist = localStorage.getItem("wishlist")
     return savedWishlist ? JSON.parse(savedWishlist) : []
   })
 
   useEffect(() => {
+    if (typeof window === "undefined") return
     localStorage.setItem("wishlist", JSON.stringify(wishlist))
   }, [wishlist])
 

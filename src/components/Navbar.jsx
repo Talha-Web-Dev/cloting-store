@@ -1,37 +1,47 @@
-import { ShoppingCart, User, Menu, X, Heart } from "lucide-react"
+import { ShoppingCart, User, Menu, X, Heart, Search } from "lucide-react"
 import { useState, useContext } from "react"
 import { NavLink } from "react-router-dom"
 import { ThemeContext } from "../context/ThemeContext"
 import { AuthContext } from "../context/AuthContext"
+import { CartContext } from "../context/CartContext"
+import { WishlistContext } from "../context/WishlistContext"
 
 function Navbar() {
   const [open, setOpen] = useState(false)
 
   const themeContext = useContext(ThemeContext)
   const authContext = useContext(AuthContext)
+  const cartContext = useContext(CartContext)
+  const wishlistContext = useContext(WishlistContext)
 
-  if (!themeContext || !authContext) {
+  if (!themeContext || !authContext || !cartContext || !wishlistContext) {
     return null
   }
 
-  const { theme, toggleTheme } = themeContext
-  const { isAuthenticated, isAdmin, logout } = authContext
+  const { isAuthenticated, isAdmin, logout, user } = authContext
+  const { cart } = cartContext
+  const { wishlist } = wishlistContext
+  const cartCount = cart.length
+  const wishlistCount = wishlist.length
 
   const navClass = ({ isActive }) =>
     isActive
-      ? "text-white font-semibold"
-      : "text-slate-300 transition hover:text-white"
+      ? "text-slate-950 font-semibold dark:text-white"
+      : "text-slate-600 transition hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
 
-  const iconButton = "inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-900/90 text-slate-300 shadow-lg transition hover:bg-white/10 hover:text-white"
+  const iconButton =
+    "relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 shadow-lg shadow-slate-950/10 transition hover:bg-slate-100 hover:text-slate-950 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800"
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 text-slate-950 shadow-xl backdrop-blur-xl transition duration-500 dark:border-slate-800/80 dark:bg-slate-950/95 dark:text-slate-100">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 md:px-8">
-        <NavLink to="/" className="flex items-center gap-3 text-xl font-semibold uppercase tracking-[0.3em] text-white">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-white/10 text-lg font-bold text-white">LS</span>
+        {/* Logo */}
+        <NavLink to="/" className="flex items-center gap-3 text-xl font-semibold uppercase tracking-[0.3em] text-slate-950 dark:text-white">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-950/10 text-lg font-bold text-slate-950 dark:bg-white/10 dark:text-white">LS</span>
           <span className="hidden sm:inline">Lush Stitches</span>
         </NavLink>
 
+        {/* Desktop Navigation */}
         <ul className="hidden items-center gap-8 text-sm font-semibold md:flex">
           <li>
             <NavLink to="/" className={navClass} end>
@@ -60,7 +70,7 @@ function Navbar() {
               <li>
                 <button
                   onClick={logout}
-                  className="text-slate-600 hover:text-slate-900 transition"
+                  className="text-slate-600 transition hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
                 >
                   Logout
                 </button>
@@ -82,29 +92,44 @@ function Navbar() {
           )}
         </ul>
 
+        {/* Icons */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="hidden rounded-full border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-slate-500 md:inline-flex"
-          >
-            {theme === "light" ? "Dark Mode" : "Light Mode"}
-          </button>
+          <NavLink to="/shop" className={`${iconButton} hidden sm:inline-flex`} title="Search products">
+            <Search size={18} />
+          </NavLink>
 
-          <NavLink to="/cart" className={iconButton} title="Cart">
+          {/* <div className="hidden lg:block">
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          </div> */}
+
+          <NavLink to="/cart" className={iconButton} title="Shopping Cart">
             <ShoppingCart size={18} />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                {cartCount > 9 ? "9+" : cartCount}
+              </span>
+            )}
           </NavLink>
 
-          <NavLink to="/profile" className={iconButton} title="Wishlist">
+          {/* Wishlist Icon with Badge */}
+          <NavLink to="/wishlist" className={iconButton} title="Wishlist">
             <Heart size={18} />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
+                {wishlistCount > 9 ? "9+" : wishlistCount}
+              </span>
+            )}
           </NavLink>
 
-          <NavLink to="/profile" className={iconButton} title="Account">
+          {/* Profile Icon */}
+          <NavLink to={isAuthenticated ? "/profile" : "/login"} className={iconButton} title="Account">
             <User size={18} />
           </NavLink>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-900/90 text-slate-300 shadow-lg transition hover:bg-white/10 md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 shadow-lg transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800 md:hidden"
             aria-label="Toggle mobile menu"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -112,22 +137,23 @@ function Navbar() {
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <div
-        className={`fixed inset-x-0 top-0 z-40 h-screen overflow-hidden bg-slate-950/95 p-6 transition-all duration-300 ease-out md:hidden ${
+        className={`fixed inset-x-0 top-0 z-40 h-screen overflow-hidden bg-white/95 p-6 transition-all duration-300 ease-out dark:bg-slate-950/95 md:hidden ${
           open ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-          <div className="flex items-center gap-3 text-lg font-semibold uppercase tracking-[0.3em] text-white">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-3xl bg-white/10">LS</span>
+        <div className="flex items-center justify-between border-b border-slate-200/70 pb-4 dark:border-slate-800">
+          <div className="flex items-center gap-3 text-lg font-semibold uppercase tracking-[0.3em] text-slate-950 dark:text-white">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-3xl bg-slate-950/10 text-slate-950 dark:bg-white/10 dark:text-white">LS</span>
             Menu
           </div>
-          <button onClick={() => setOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-900/90 text-slate-300 transition hover:bg-white/10">
+          <button onClick={() => setOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800">
             <X size={20} />
           </button>
         </div>
 
-        <div className="mt-10 flex flex-col gap-6 text-lg font-semibold text-slate-100">
+        <div className="mt-10 flex flex-col gap-6 text-lg font-semibold text-slate-950 dark:text-slate-100">
           <NavLink to="/" onClick={() => setOpen(false)} className={navClass} end>
             Home
           </NavLink>
@@ -135,36 +161,60 @@ function Navbar() {
             Shop
           </NavLink>
           <NavLink to="/cart" onClick={() => setOpen(false)} className={navClass}>
-            Cart
+            Cart ({cartCount})
           </NavLink>
-          <NavLink to="/profile" onClick={() => setOpen(false)} className={navClass}>
-            Profile
+          <NavLink to="/wishlist" onClick={() => setOpen(false)} className={navClass}>
+            Wishlist ({wishlistCount})
           </NavLink>
-          {isAdmin && (
-            <NavLink to="/admin" onClick={() => setOpen(false)} className={navClass}>
-              Admin
-            </NavLink>
+          {isAuthenticated && (
+            <>
+              <NavLink to="/profile" onClick={() => setOpen(false)} className={navClass}>
+                Profile
+              </NavLink>
+              {isAdmin && (
+                <NavLink to="/admin" onClick={() => setOpen(false)} className={navClass}>
+                  Admin
+                </NavLink>
+              )}
+            </>
           )}
         </div>
 
-        <div className="mt-10 grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-5">
-          <NavLink to="/cart" onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-4 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
-            <span>Cart</span>
+        <div className="mt-10 grid gap-4 rounded-3xl border border-slate-200/70 bg-slate-50/80 p-5 shadow-lg shadow-slate-950/5 dark:border-slate-700/70 dark:bg-slate-900/70">
+          {/* <button onClick={toggleTheme} className="inline-flex items-center justify-between rounded-3xl border border-slate-200/70 bg-white/90 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800">
+            <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+            <span className="text-xs uppercase tracking-[0.24em]">{theme}</span>
+          </button> */}
+          <NavLink to="/cart" onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl border border-slate-200/70 bg-white/90 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800">
+            <span>Cart {cartCount > 0 && `(${cartCount})`}</span>
             <ShoppingCart size={18} />
           </NavLink>
-          <NavLink to="/profile" onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-4 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
-            <span>Wishlist</span>
+          <NavLink to="/wishlist" onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl border border-slate-200/70 bg-white/90 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800">
+            <span>Wishlist {wishlistCount > 0 && `(${wishlistCount})`}</span>
             <Heart size={18} />
           </NavLink>
-          <NavLink to="/profile" onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-4 text-sm font-semibold text-slate-100 transition hover:bg-white/10">
-            <span>Profile</span>
+          <NavLink to={isAuthenticated ? "/profile" : "/login"} onClick={() => setOpen(false)} className="inline-flex items-center justify-between rounded-3xl border border-slate-200/70 bg-white/90 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800">
+            <span>{isAuthenticated ? "Profile" : "Login"}</span>
             <User size={18} />
           </NavLink>
         </div>
 
-        <div className="mt-10 flex items-center justify-between border-t border-slate-800 pt-6 text-slate-400">
-          <p className="text-sm">Style your next collection in motion.</p>
-        </div>
+        {isAuthenticated && (
+          <div className="mt-10 flex items-center justify-between border-t border-slate-200/70 pt-6 dark:border-slate-800">
+            <div className="text-sm">
+              <p className="text-slate-600 dark:text-slate-400">Welcome, {user?.name}!</p>
+              <button
+                onClick={() => {
+                  logout()
+                  setOpen(false)
+                }}
+                className="mt-2 text-sm font-semibold text-red-600 hover:text-red-700 dark:text-red-400"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )

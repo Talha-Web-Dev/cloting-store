@@ -50,30 +50,30 @@ function Checkout() {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen py-16">
+    <div className="bg-slate-100 text-slate-950 dark:bg-slate-900 dark:text-slate-100 min-h-screen py-16 transition duration-500">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h1 className="text-3xl font-semibold mb-6">Checkout</h1>
 
         <form onSubmit={placeOrder} className="grid gap-8 lg:grid-cols-[1fr_420px]">
           <div className="space-y-6">
-            <section className="rounded-2xl bg-white p-6 shadow-sm">
+            <section className="rounded-2xl bg-white p-6 shadow-sm transition duration-300 dark:bg-slate-950/85 dark:border dark:border-slate-700">
               <h2 className="text-lg font-semibold">1. Shipping information</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <input name="name" value={shipping.name} onChange={handleChange} placeholder="Full name" className="rounded-md border px-4 py-3" />
-                <input name="email" value={shipping.email} onChange={handleChange} placeholder="Email" className="rounded-md border px-4 py-3" />
-                <input name="address" value={shipping.address} onChange={handleChange} placeholder="Street address" className="sm:col-span-2 rounded-md border px-4 py-3" />
-                <input name="city" value={shipping.city} onChange={handleChange} placeholder="City" className="rounded-md border px-4 py-3" />
-                <input name="state" value={shipping.state} onChange={handleChange} placeholder="State" className="rounded-md border px-4 py-3" />
-                <input name="zip" value={shipping.zip} onChange={handleChange} placeholder="Postal code" className="rounded-md border px-4 py-3" />
-                <input name="phone" value={shipping.phone} onChange={handleChange} placeholder="Phone" className="sm:col-span-2 rounded-md border px-4 py-3" />
+                <input name="name" value={shipping.name} onChange={handleChange} placeholder="Full name" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="email" value={shipping.email} onChange={handleChange} placeholder="Email" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="address" value={shipping.address} onChange={handleChange} placeholder="Street address" className="sm:col-span-2 rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="city" value={shipping.city} onChange={handleChange} placeholder="City" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="state" value={shipping.state} onChange={handleChange} placeholder="State" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="zip" value={shipping.zip} onChange={handleChange} placeholder="Postal code" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <input name="phone" value={shipping.phone} onChange={handleChange} placeholder="Phone" className="sm:col-span-2 rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
               </div>
             </section>
 
-            <section className="rounded-2xl bg-white p-6 shadow-sm">
+            <section className="rounded-2xl bg-white p-6 shadow-sm transition duration-300 dark:bg-slate-950/85 dark:border dark:border-slate-700">
               <h2 className="text-lg font-semibold">2. Billing information</h2>
               <div className="mt-3 flex items-center gap-3">
-                <input id="same" type="checkbox" checked={billingSame} onChange={() => setBillingSame(!billingSame)} />
-                <label htmlFor="same" className="text-sm text-slate-600">Billing same as shipping</label>
+                <input id="same" type="checkbox" checked={billingSame} onChange={() => setBillingSame(!billingSame)} className="h-4 w-4 rounded border-slate-300 text-slate-900 dark:border-slate-700 dark:bg-slate-900/70" />
+                <label htmlFor="same" className="text-sm text-slate-600 dark:text-slate-400">Billing same as shipping</label>
               </div>
 
               {!billingSame && (
@@ -86,21 +86,21 @@ function Checkout() {
               )}
             </section>
 
-            <section className="rounded-2xl bg-white p-6 shadow-sm">
+            <section className="rounded-2xl bg-white p-6 shadow-sm transition duration-300 dark:bg-slate-950/85 dark:border dark:border-slate-700">
               <h2 className="text-lg font-semibold">3. Payment methods</h2>
 
               <div className="mt-4 space-y-3">
                 <label className="flex items-center gap-3">
-                  <input type="radio" name="payment" checked={paymentMethod === 'card'} onChange={() => setPaymentMethod('card')} />
-                  <span className="text-sm">Credit / Debit card</span>
+                  <input type="radio" name="payment" checked={paymentMethod === 'card'} onChange={() => setPaymentMethod('card')} className="h-4 w-4 text-slate-900 dark:text-slate-100" />
+                  <span className="text-sm text-slate-700 dark:text-slate-300">Credit / Debit card</span>
                 </label>
 
                 {paymentMethod === 'card' && (
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    <input name="number" value={card.number} onChange={handleCardChange} placeholder="Card number" className="rounded-md border px-4 py-3 sm:col-span-2" />
-                    <input name="name" value={card.name} onChange={handleCardChange} placeholder="Name on card" className="rounded-md border px-4 py-3" />
-                    <input name="exp" value={card.exp} onChange={handleCardChange} placeholder="MM/YY" className="rounded-md border px-4 py-3" />
-                    <input name="cvv" value={card.cvv} onChange={handleCardChange} placeholder="CVV" className="rounded-md border px-4 py-3" />
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    <input name="number" value={card.number} onChange={handleCardChange} placeholder="Card number" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none sm:col-span-2 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                    <input name="name" value={card.name} onChange={handleCardChange} placeholder="Name on card" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                    <input name="exp" value={card.exp} onChange={handleCardChange} placeholder="MM/YY" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                    <input name="cvv" value={card.cvv} onChange={handleCardChange} placeholder="CVV" className="rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
                   </div>
                 )}
 
@@ -123,7 +123,7 @@ function Checkout() {
             </section>
           </div>
 
-          <aside className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <aside className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 dark:border-slate-700 dark:bg-slate-950/85">
             <h3 className="text-lg font-semibold">Order summary</h3>
 
             <div className="mt-4 space-y-4">
@@ -153,17 +153,17 @@ function Checkout() {
                 <span>Rs. {shippingCost}</span>
               </div>
 
-              <div className="mt-4 flex items-center gap-3">
-                <input value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Promo code" className="w-full rounded-md border px-4 py-2" />
-                <button type="button" onClick={() => toast.success('Promo applied (demo)')} className="rounded-md bg-slate-900 px-4 py-2 text-white">Apply</button>
+                <div className="mt-4 flex items-center gap-3">
+                <input value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Promo code" className="w-full rounded-md border border-slate-300 bg-white px-4 py-2 text-slate-900 outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100" />
+                <button type="button" onClick={() => toast.success('Promo applied (demo)')} className="rounded-md bg-slate-950 px-4 py-2 text-white dark:bg-white dark:text-slate-950">Apply</button>
               </div>
 
-              <div className="mt-6 flex items-center justify-between">
+                <div className="mt-6 flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Total</p>
-                  <p className="text-2xl font-semibold">Rs. {total}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Total</p>
+                  <p className="text-2xl font-semibold text-slate-950 dark:text-white">Rs. {total}</p>
                 </div>
-                <button type="submit" className="rounded-full bg-slate-900 px-6 py-3 text-white">Place order</button>
+                <button type="submit" className="rounded-full bg-slate-950 px-6 py-3 text-white dark:bg-white dark:text-slate-950">Place order</button>
               </div>
             </div>
           </aside>

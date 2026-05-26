@@ -8,12 +8,14 @@ export const CartContext = createContext()
 function CartProvider({ children }) {
 
   const [cart, setCart] = useState(() => {
+    if (typeof window === "undefined") return []
     const savedCart = localStorage.getItem("cart")
     return savedCart ? JSON.parse(savedCart) : []
   })
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
+    if (typeof window === "undefined") return
     localStorage.setItem("cart", JSON.stringify(cart))
   }, [cart])
 
