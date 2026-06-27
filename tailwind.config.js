@@ -4,19 +4,25 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        display: ["Playfair Display", "Cormorant Garamond", "serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+      },
       boxShadow: {
-        premium: '0 28px 90px rgba(15, 23, 42, 0.12)',
+        premium: "0 28px 80px rgba(26, 26, 26, 0.08)",
       },
       colors: {
         brand: {
-          DEFAULT: '#111827',
-          muted: '#94a3b8',
-          highlight: '#f8fafc',
+          bg: "#FAF9F6",
+          charcoal: "#1A1A1A",
+          beige: "#DCCDB8",
+          gold: "#C8A96B",
+          muted: "#7A6C58",
+          border: "#E9E0D5",
         },
       },
       backgroundImage: {
-        'hero-light': 'radial-gradient(circle at top, rgba(255,255,255,0.95), rgba(248,247,244,1))',
-        'hero-dark': 'radial-gradient(circle at top, rgba(30,41,59,0.92), rgba(9,10,16,1))',
+        "brand-glow": "radial-gradient(circle at top, rgba(200, 169, 107, 0.18), transparent 46%)",
       },
     },
   },

@@ -33,51 +33,46 @@ function Testimonials() {
   ]
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20 transition duration-500 dark:text-slate-100">
-      <div className="mb-16 text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
-          Loved by customers
-        </p>
-        <h2 className="mt-3 text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
-          Customer Reviews & Testimonials
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600 dark:text-slate-400">
-          Hear from our community of premium fashion lovers around the world.
-        </p>
-      </div>
+    <section className="bg-brand-bg py-24 px-6 sm:px-8 lg:px-16">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-16 text-center">
+          <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Loved by customers</p>
+          <h2 className="mt-3 text-4xl font-semibold text-brand-charcoal sm:text-5xl">
+            Customer reviews that feel like editorial praise
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-brand-muted">
+            Read reflections from modern shoppers who trust Lush & Stitches for quality and style.
+          </p>
+        </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {reviews.map((item, index) => (
-          <div
-            key={index}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-8 shadow-lg transition duration-300 hover:shadow-xl dark:border-slate-700 dark:bg-slate-950"
-          >
-            {/* Rating Stars */}
-            <div className="mb-4 flex gap-1">
-              {[...Array(item.rating)].map((_, i) => (
-                <Star key={i} size={16} className="fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {reviews.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-col rounded-[2rem] border border-brand-border bg-white p-8 shadow-premium transition duration-300 hover:-translate-y-1 hover:shadow-2xl"
+            >
+              <div className="mb-4 flex gap-1 text-brand-gold">
+                {[...Array(item.rating)].map((_, i) => (
+                  <Star key={i} size={16} className="fill-current" />
+                ))}
+              </div>
 
-            {/* Review Text */}
-            <p className="mb-6 flex-1 text-slate-600 dark:text-slate-400 leading-relaxed">
-              "{item.review}"
-            </p>
+              <p className="mb-6 flex-1 text-sm leading-7 text-brand-muted">"{item.review}"</p>
 
-            {/* Customer Info */}
-            <div className="flex items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="h-12 w-12 rounded-full object-cover"
-              />
-              <div>
-                <p className="font-semibold text-slate-900 dark:text-white">{item.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{item.role}</p>
+              <div className="flex items-center gap-3 border-t border-brand-border pt-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-12 w-12 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-brand-charcoal">{item.name}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-brand-muted">{item.role}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   )

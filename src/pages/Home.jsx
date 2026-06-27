@@ -1,29 +1,26 @@
-import AnnouncementBar from "../components/AnnouncementBar"
+import HeroSection from "../components/HeroSection"
 import Categories from "../components/Categories"
+import BannerSection from "../components/BannerSection"
 import FeaturedProducts from "../components/FeaturedProducts"
+import NewArrivals from "../components/NewArrivals"
+import BestSellers from "../components/BestSellers"
+import WhyChooseUs from "../components/WhyChooseUs"
 import Testimonials from "../components/Testimonials"
 import Newsletter from "../components/Newsletter"
-import NewArrivals from "../components/NewArrivals"
-import InstagramGallery from "../components/InstagramGallery"
-import HeroSection from "../components/HeroSection"
-import MarqueeSection from "../components/MarqueeSection"
-import BannerSection from "../components/BannerSection"
+
 function Home() {
   return (
-    <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">
-     <AnnouncementBar />
+    <main className="bg-brand-bg text-brand-charcoal">
       <HeroSection />
-      <MarqueeSection />
-      <BannerSection />
-      
-      
-      <NewArrivals />
-      <FeaturedProducts />
       <Categories />
+      <FeaturedProducts />
+      <NewArrivals />
+      <BestSellers />
+      <BannerSection />
+      <WhyChooseUs />
       <Testimonials />
       <Newsletter />
-      <InstagramGallery />
-    </div>
+    </main>
   )
 }
 

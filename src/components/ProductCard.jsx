@@ -1,66 +1,73 @@
-import { Heart, ShoppingCart } from "lucide-react"
+import { Heart, ShoppingBag, Star } from "lucide-react"
 import { useContext } from "react"
 import { CartContext } from "../context/CartContext"
 import { WishlistContext } from "../context/WishlistContext"
-import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
 
 function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext)
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext)
   const isFavorite = isInWishlist(product.id)
+  const discount = product.originalPrice && product.originalPrice > product.price
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : 0
 
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.03,
-        y: -5,
-      }}
-      whileTap={{
-        scale: 0.98,
-      }}
-      transition={{
-        duration: 0.25,
-      }}
-      className="group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-slate-700/70 dark:bg-slate-950/90"
-    >
-      <button
-        onClick={() => toggleWishlist(product)}
-        className={`absolute right-4 top-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition duration-300 hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 ${
-          isFavorite ? "text-red-500" : "hover:text-slate-900 dark:hover:text-white"
-        }`}
-      >
-        <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
-      </button>
-
-      <Link to={`/product/${product.id}`} className="block">
+    <div className="group overflow-hidden rounded-[2rem] border border-brand-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl">
+      <div className="relative overflow-hidden">
         <img
           src={product.image}
           alt={product.title}
-          className="h-80 w-full object-cover"
+          className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
         />
-      </Link>
 
-      <div className="space-y-4 p-5">
-        <div>
-          <Link to={`/product/${product.id}`} className="block">
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">{product.category}</p>
-            <h2 className="mt-3 text-xl font-semibold text-slate-900 dark:text-slate-100">{product.title}</h2>
-          </Link>
+        {discount > 0 && (
+          <div className="absolute left-4 top-4 rounded-full bg-brand-gold px-3 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-charcoal shadow-lg shadow-brand-gold/30">
+            -{discount}%
+          </div>
+        )}
+
+        <button
+          onClick={() => toggleWishlist(product)}
+          className={`absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/95 text-brand-charcoal shadow-sm transition hover:bg-brand-bg ${
+            isFavorite ? "text-brand-gold" : "text-brand-muted"
+          }`}
+        >
+          <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
+        </button>
+      </div>
+
+      <div className="p-5">
+        <p className="text-xs uppercase tracking-[0.35em] text-brand-muted">{product.category}</p>
+        <h2 className="mt-3 text-xl font-semibold text-brand-charcoal">{product.title}</h2>
+
+        <div className="mt-4 flex items-center gap-2 text-sm text-brand-muted">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Star
+              key={index}
+              className={`h-4 w-4 ${index < Math.round(product.rating || 0) ? "text-brand-gold" : "text-brand-border"}`}
+            />
+          ))}
+          <span className="font-medium text-brand-muted">{(product.rating || 0).toFixed(1)} · {product.reviews}</span>
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">Rs. {product.price}</p>
+        <div className="mt-5 flex items-center gap-3">
+          <div>
+            <p className="text-lg font-semibold text-brand-charcoal">Rs. {product.price}</p>
+            {product.originalPrice > product.price && (
+              <p className="text-sm text-brand-muted line-through">Rs. {product.originalPrice}</p>
+            )}
+          </div>
           <button
             onClick={() => addToCart(product)}
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white shadow-sm transition duration-300 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+            className="ml-auto inline-flex items-center gap-2 rounded-full bg-brand-charcoal px-4 py-3 text-sm font-semibold text-brand-bg transition hover:bg-slate-950"
           >
-            <ShoppingCart size={18} />
+            <ShoppingBag size={18} />
+            Add to bag
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
-export default ProductCard;
+export default ProductCard

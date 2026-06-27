@@ -26,19 +26,19 @@ function Navbar() {
 
   const navClass = ({ isActive }) =>
     isActive
-      ? "text-slate-950 font-semibold dark:text-white"
-      : "text-slate-600 transition hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
+      ? "text-brand-charcoal font-semibold"
+      : "text-brand-muted transition hover:text-brand-charcoal"
 
   const iconButton =
-    "relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 shadow-lg shadow-slate-950/10 transition hover:bg-slate-100 hover:text-slate-950 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800"
+    "relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-border bg-white text-brand-charcoal shadow-premium transition hover:bg-brand-bg"
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 text-slate-950 shadow-xl backdrop-blur-xl transition duration-500 dark:border-slate-800/80 dark:bg-slate-950/95 dark:text-slate-100">
+    <nav className="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/90 text-brand-charcoal backdrop-blur-xl transition duration-500">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 md:px-8">
         {/* Logo */}
-        <NavLink to="/" className="flex items-center gap-3 text-xl font-semibold uppercase tracking-[0.3em] text-slate-950 dark:text-white">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-950/10 text-lg font-bold text-slate-950 dark:bg-white/10 dark:text-white">LS</span>
-          <span className="hidden sm:inline">Lush Stitches</span>
+        <NavLink to="/" className="flex items-center gap-3 text-xl font-semibold uppercase tracking-[0.3em] text-brand-charcoal">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-brand-charcoal text-lg font-bold text-brand-bg">LS</span>
+          <span className="hidden sm:inline">Lush & Stitches</span>
         </NavLink>
 
         {/* Desktop Navigation */}
@@ -98,30 +98,24 @@ function Navbar() {
             <Search size={18} />
           </NavLink>
 
-          {/* <div className="hidden lg:block">
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-          </div> */}
-
           <NavLink to="/cart" className={iconButton} title="Shopping Cart">
             <ShoppingCart size={18} />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-gold text-[10px] font-semibold text-brand-charcoal shadow-lg">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             )}
           </NavLink>
 
-          {/* Wishlist Icon with Badge */}
           <NavLink to="/wishlist" className={iconButton} title="Wishlist">
             <Heart size={18} />
             {wishlistCount > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-gold text-[10px] font-semibold text-brand-charcoal shadow-lg">
                 {wishlistCount > 9 ? "9+" : wishlistCount}
               </span>
             )}
           </NavLink>
 
-          {/* Profile Icon */}
           <NavLink to={isAuthenticated ? "/profile" : "/login"} className={iconButton} title="Account">
             <User size={18} />
           </NavLink>
@@ -129,7 +123,7 @@ function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 shadow-lg transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800 md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-border bg-white text-brand-charcoal shadow-premium transition hover:bg-brand-bg md:hidden"
             aria-label="Toggle mobile menu"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -139,16 +133,16 @@ function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-x-0 top-0 z-40 h-screen overflow-hidden bg-white/95 p-6 transition-all duration-300 ease-out dark:bg-slate-950/95 md:hidden ${
+        className={`fixed inset-x-0 top-0 z-40 h-screen overflow-hidden bg-brand-bg/95 p-6 transition-all duration-300 ease-out md:hidden ${
           open ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-200/70 pb-4 dark:border-slate-800">
-          <div className="flex items-center gap-3 text-lg font-semibold uppercase tracking-[0.3em] text-slate-950 dark:text-white">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-3xl bg-slate-950/10 text-slate-950 dark:bg-white/10 dark:text-white">LS</span>
+        <div className="flex items-center justify-between border-b border-brand-border pb-4">
+          <div className="flex items-center gap-3 text-lg font-semibold uppercase tracking-[0.3em] text-brand-charcoal">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-3xl bg-brand-charcoal text-brand-bg">LS</span>
             Menu
           </div>
-          <button onClick={() => setOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-950 transition hover:bg-slate-100 dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-100 dark:hover:bg-slate-800">
+          <button onClick={() => setOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-border bg-white text-brand-charcoal transition hover:bg-brand-bg">
             <X size={20} />
           </button>
         </div>

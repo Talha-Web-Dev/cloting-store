@@ -4,7 +4,6 @@ import { Search, SlidersHorizontal, ChevronDown } from "lucide-react"
 import ProductCard from "../components/ProductCard"
 import products from "../data/products"
 import SkeletonCard from "../components/SkeletonCard"
-import MegaCategoryMenu from "../components/MegaCategoryMenu"
 import ShopFilterPanel from "../components/ShopFilterPanel"
 import Pagination from "../components/Pagination"
 
@@ -109,24 +108,6 @@ const sortOptions = [
   { value: "price-high", label: "Price: High to Low" },
 ]
 
-const seasonalHighlights = [
-  {
-    label: "Lawn Edit",
-    title: "Soft summer silhouettes",
-    accent: "Inspired by sapphire-inspired tonal palettes.",
-  },
-  {
-    label: "Festive Edit",
-    title: "Bridal-ready luxury",
-    accent: "Embroidered surfaces with rich textures.",
-  },
-  {
-    label: "Urban Luxe",
-    title: "Tailored ready-to-wear",
-    accent: "Modern lines for elevated everyday dressing.",
-  },
-]
-
 function Shop() {
   const [search, setSearch] = useState("")
   const [mainCategory, setMainCategory] = useState("All")
@@ -134,12 +115,19 @@ function Shop() {
   const [fabricFilter, setFabricFilter] = useState([])
   const [collectionFilter, setCollectionFilter] = useState([])
   const [seasonFilter, setSeasonFilter] = useState([])
+  const [sizeFilter, setSizeFilter] = useState([])
   const [priceRange, setPriceRange] = useState([800, 15000])
   const [sortBy, setSortBy] = useState("popular")
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(true)
-  const perPage = 9
+  const perPage = 12
+
+  const sizeOptions = useMemo(() => {
+    const sizes = Array.from(new Set(products.flatMap((product) => product.sizes)))
+    const order = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "One Size"]
+    return sizes.sort((a, b) => order.indexOf(a) - order.indexOf(b) || a.localeCompare(b))
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 650)
@@ -148,7 +136,7 @@ function Shop() {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [search, mainCategory, subCategory, fabricFilter, collectionFilter, seasonFilter, priceRange, sortBy])
+  }, [search, mainCategory, subCategory, fabricFilter, collectionFilter, seasonFilter, sizeFilter, priceRange, sortBy])
 
   useEffect(() => {
     if (mainCategory === "All") return
@@ -180,6 +168,12 @@ function Shop() {
       results = results.filter((product) => seasonFilter.includes(product.season))
     }
 
+    if (sizeFilter.length > 0) {
+      results = results.filter((product) =>
+        product.sizes.some((size) => sizeFilter.includes(size))
+      )
+    }
+
     results = results.filter(
       (product) => product.price >= priceRange[0] && product.price <= priceRange[1]
     )
@@ -195,7 +189,7 @@ function Shop() {
     }
 
     return results
-  }, [search, mainCategory, subCategory, fabricFilter, collectionFilter, seasonFilter, priceRange, sortBy])
+  }, [search, mainCategory, subCategory, fabricFilter, collectionFilter, seasonFilter, sizeFilter, priceRange, sortBy])
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / perPage))
   const paginatedProducts = filteredProducts.slice((currentPage - 1) * perPage, currentPage * perPage)
@@ -219,88 +213,71 @@ function Shop() {
   }
 
   return (
-    <section className="bg-gradient-to-b from-slate-50 to-slate-100 py-16 transition duration-500 dark:from-slate-900 dark:to-slate-950">
+    <section className="bg-brand-bg py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div className="rounded-[2rem] bg-slate-950 px-8 py-12 text-white shadow-2xl shadow-slate-950/10 sm:px-10 sm:py-14">
-            <span className="text-xs uppercase tracking-[0.4em] text-slate-400">Lush Stitches</span>
-            <h1 className="mt-5 text-5xl font-semibold tracking-tight">Luxury fashion for every season.</h1>
-            <p className="mt-5 max-w-2xl text-slate-300">
-              Discover premium Pakistani fashion with curated women, men, and kids collections, elegant fabrics and timeless silhouettes.
-            </p>
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Collections</p>
-                <p className="mt-3 text-xl font-semibold text-white">Seasonal edits</p>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Filters</p>
-                <p className="mt-3 text-xl font-semibold text-white">Fabric forward</p>
-              </div>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Design</p>
-                <p className="mt-3 text-xl font-semibold text-white">Elegant minimalism</p>
+        <div className="overflow-hidden rounded-[2.5rem] bg-white p-6 shadow-premium sm:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_0.9fr] lg:items-end">
+            <div className="space-y-5 text-brand-charcoal">
+              <span className="inline-flex rounded-full bg-brand-beige px-4 py-2 text-xs uppercase tracking-[0.35em] text-brand-charcoal/80">
+                Extra 20% off selected edits
+              </span>
+              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                Modern wardrobe drops for timeless color.
+              </h1>
+              <p className="max-w-2xl text-base leading-8 text-brand-muted">
+                Shop fresh collections with premium fabrics, refined details, and effortless polish. Free shipping on orders over Rs. 8,000.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] bg-brand-bg p-6 ring-1 ring-brand-border sm:p-8">
+              <div className="space-y-4 text-brand-charcoal">
+                <div className="rounded-3xl bg-brand-beige/20 p-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-brand-muted">Limited Time</p>
+                  <p className="mt-3 text-2xl font-semibold">Signature staples & refined layers</p>
+                </div>
+                <div className="grid gap-4 rounded-3xl bg-brand-bg p-4 sm:grid-cols-2">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.35em] text-brand-muted">Free shipping</p>
+                    <p className="mt-2 text-lg font-semibold">Orders over Rs. 8,000</p>
+                  </div>
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.35em] text-brand-muted">Fast exchange</p>
+                    <p className="mt-2 text-lg font-semibold">Easy 14-day returns</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="grid gap-4">
-            {seasonalHighlights.map((item) => (
-              <div key={item.label} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-950/90">
-                <p className="text-sm uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">{item.label}</p>
-                <h2 className="mt-4 text-2xl font-semibold text-slate-950 dark:text-white">{item.title}</h2>
-                <p className="mt-3 text-slate-600 dark:text-slate-400">{item.accent}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="mt-12">
-          <MegaCategoryMenu
-            categories={categorySchema}
-            activeMain={mainCategory}
-            selectedSubCategory={subCategory}
-            onSelectMain={setMainCategory}
-            onSelectSub={setSubCategory}
-          />
-        </div>
+        <div className="mt-8 rounded-[2rem] bg-white p-6 shadow-xl shadow-brand-shadow">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="relative min-w-0 flex-1">
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-muted" />
+              <input
+                type="text"
+                placeholder="Search silk dresses, kurta sets, accessories..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-full border border-brand-border bg-brand-bg px-12 py-4 text-sm text-brand-charcoal outline-none transition focus:border-brand-charcoal focus:ring-2 focus:ring-brand-beige"
+              />
+            </div>
 
-        <div className="mt-10 flex flex-col gap-6">
-          <div className="flex flex-col gap-4 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-950/90 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="relative min-w-0 flex-1">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search premium fabrics, kurtas, dresses..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full rounded-full border border-slate-200 bg-slate-50 px-12 py-4 text-sm text-slate-900 outline-none transition focus:border-slate-300 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:focus:ring-slate-700"
-                />
-              </div>
-
+            <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
+                className="inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-bg px-5 py-3 text-sm font-semibold text-brand-charcoal transition hover:bg-brand-beige"
               >
                 <SlidersHorizontal size={18} />
                 Filters
               </button>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-300">
-                {filteredProducts.length} results
-                {mainCategory !== "All" && ` · ${mainCategory}`}
-                {subCategory !== "All" && ` · ${subCategory}`}
-              </div>
-              <div className="flex items-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900/80">
-                <span className="text-slate-500 dark:text-slate-400">Sort:</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-bg px-4 py-3 text-sm text-brand-muted">
+                <span className="font-semibold text-brand-charcoal">Sort:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="rounded-full border border-transparent bg-transparent text-sm text-slate-900 outline-none focus:outline-none dark:text-slate-100"
+                  className="rounded-full border border-transparent bg-transparent px-2 py-1 text-sm outline-none"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -308,12 +285,29 @@ function Shop() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="h-4 w-4 text-slate-500" />
+                <ChevronDown className="h-4 w-4 text-brand-muted" />
               </div>
             </div>
           </div>
 
-          <div className="grid gap-8 xl:grid-cols-[320px_1fr]">
+          <div className="mt-6 flex flex-wrap gap-3">
+            {['All', 'Women', 'Men', 'Kids', 'Accessories'].map((label) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setMainCategory(label)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  mainCategory === label
+                    ? 'bg-brand-charcoal text-brand-bg shadow-lg'
+                    : 'bg-brand-bg text-brand-charcoal hover:bg-brand-beige'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-6 grid gap-8 xl:grid-cols-[320px_1fr]">
             <aside className="hidden xl:block">
               <ShopFilterPanel
                 categories={categorySchema}
@@ -323,26 +317,63 @@ function Shop() {
                 seasonFilter={seasonFilter}
                 collectionFilter={collectionFilter}
                 priceRange={priceRange}
+                sizeFilter={sizeFilter}
+                sizeOptions={sizeOptions}
                 onSelectMainCategory={setMainCategory}
                 onSelectSubCategory={setSubCategory}
                 onToggleFabric={(value) => toggleArrayValue(value, fabricFilter, setFabricFilter)}
                 onToggleSeason={(value) => toggleArrayValue(value, seasonFilter, setSeasonFilter)}
                 onToggleCollection={(value) => toggleArrayValue(value, collectionFilter, setCollectionFilter)}
+                onToggleSize={(value) => toggleArrayValue(value, sizeFilter, setSizeFilter)}
                 onPriceChange={setPriceRange}
                 resetFilters={resetFilters}
               />
             </aside>
 
             <main>
-              <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="rounded-3xl bg-brand-bg px-4 py-3 text-sm text-brand-charcoal shadow-sm">
+                  {filteredProducts.length} products found
+                  {mainCategory !== 'All' && ` · ${mainCategory}`}
+                  {subCategory !== 'All' && ` · ${subCategory}`}
+                </div>
+                {sizeFilter.length > 0 && (
+                  <div className="flex flex-wrap gap-2 text-sm text-brand-muted">
+                    <span>Sizes:</span>
+                    {sizeFilter.map((size) => (
+                      <span key={size} className="rounded-full bg-brand-bg px-3 py-1 font-semibold text-brand-charcoal">
+                        {size}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
                 {loading
-                  ? Array.from({ length: 9 }).map((_, index) => <SkeletonCard key={index} />)
+                  ? Array.from({ length: 8 }).map((_, index) => <SkeletonCard key={index} />)
                   : paginatedProducts.map((product) => <ProductCard key={product.id} product={product} />)}
               </div>
 
-              {loading || filteredProducts.length === 0 ? null : (
-                <div className="mt-10">
+              {!loading && filteredProducts.length === 0 && (
+                <div className="mt-16 rounded-[2rem] border border-brand-border bg-white p-10 text-center shadow-sm">
+                  <p className="text-lg font-semibold text-brand-charcoal">No products match your search yet.</p>
+                  <p className="mt-3 text-brand-muted">Try a broader term, reset filters, or explore another category.</p>
+                </div>
+              )}
+
+              {!loading && filteredProducts.length > 0 && (
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                  {currentPage < totalPages && (
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                      className="inline-flex items-center justify-center rounded-full bg-brand-charcoal px-5 py-3 text-sm font-semibold text-brand-bg transition hover:bg-brand-charcoal/90"
+                    >
+                      Load more styles
+                    </button>
+                  )}
                 </div>
               )}
             </main>
@@ -356,26 +387,26 @@ function Shop() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-brand-charcoal/20 backdrop-blur-sm"
             onClick={() => setMobileFiltersOpen(false)}
           >
             <motion.div
-              initial={{ x: "100%" }}
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 280, damping: 32 }}
-              className="absolute right-0 top-0 h-full w-full max-w-md bg-white p-6 shadow-2xl dark:bg-slate-950"
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 280, damping: 32 }}
+              className="absolute right-0 top-0 h-full w-full max-w-md bg-white p-6 shadow-2xl"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Filters</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">Refine shop</h2>
+                  <p className="text-sm uppercase tracking-[0.35em] text-brand-muted">Filters</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-brand-charcoal">Refine your search</h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="text-sm font-semibold text-slate-500 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                  className="text-sm font-semibold text-brand-charcoal transition hover:text-brand-muted"
                 >
                   Close
                 </button>
@@ -390,11 +421,14 @@ function Shop() {
                   seasonFilter={seasonFilter}
                   collectionFilter={collectionFilter}
                   priceRange={priceRange}
+                  sizeFilter={sizeFilter}
+                  sizeOptions={sizeOptions}
                   onSelectMainCategory={setMainCategory}
                   onSelectSubCategory={setSubCategory}
                   onToggleFabric={(value) => toggleArrayValue(value, fabricFilter, setFabricFilter)}
                   onToggleSeason={(value) => toggleArrayValue(value, seasonFilter, setSeasonFilter)}
                   onToggleCollection={(value) => toggleArrayValue(value, collectionFilter, setCollectionFilter)}
+                  onToggleSize={(value) => toggleArrayValue(value, sizeFilter, setSizeFilter)}
                   onPriceChange={setPriceRange}
                   resetFilters={() => {
                     resetFilters()

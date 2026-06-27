@@ -1,103 +1,102 @@
-import { Link } from "react-router-dom"
-import { Send } from "lucide-react"
+import { Mail, Sparkles, ShieldCheck, Phone } from "lucide-react"
 
 function Footer() {
   return (
-    <footer className="bg-white text-slate-950 transition duration-500 dark:bg-slate-950 dark:text-slate-100">
+    <footer className="bg-brand-bg border-t border-brand-border text-brand-charcoal">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-12 xl:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-slate-950/10 text-lg font-bold text-slate-950 shadow-lg shadow-slate-950/10 dark:bg-white/10 dark:text-white">
+        <div className="grid gap-10 lg:grid-cols-4">
+          <div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-charcoal text-brand-bg font-bold">
                 LS
               </div>
               <div>
-                <p className="text-sm uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">Lush Stitches</p>
-                <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Luxury fashion essentials</h2>
+                <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Lush & Stitches</p>
+                <p className="mt-2 text-base font-semibold text-brand-charcoal">Modern elevated wardrobe</p>
               </div>
             </div>
-            <p className="max-w-md text-slate-600 leading-relaxed dark:text-slate-400">
-              A refined fashion atelier for premium wardrobe stories, delivering curated silhouettes and iconic elegance in every stitch.
+            <p className="mt-6 max-w-sm text-sm leading-7 text-brand-muted">
+              Premium clothing with refined silhouettes, thoughtful fit, and everyday ease.
             </p>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Explore</h3>
-            <ul className="mt-6 space-y-3 text-slate-600 dark:text-slate-400">
+            <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Quick Links</p>
+            <ul className="mt-6 space-y-3 text-sm text-brand-muted">
               <li>
-                <Link to="/" className="transition hover:text-slate-950 dark:hover:text-white">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop" className="transition hover:text-slate-950 dark:hover:text-white">
+                <a href="/shop" className="transition hover:text-brand-charcoal">
                   Shop
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/cart" className="transition hover:text-slate-950 dark:hover:text-white">
-                  Cart
-                </Link>
+                <a href="/wishlist" className="transition hover:text-brand-charcoal">
+                  Wishlist
+                </a>
               </li>
               <li>
-                <Link to="/profile" className="transition hover:text-slate-950 dark:hover:text-white">
-                  Profile
-                </Link>
+                <a href="/profile" className="transition hover:text-brand-charcoal">
+                  My Account
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="transition hover:text-brand-charcoal">
+                  Contact Us
+                </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Contact</h3>
-            <div className="mt-6 space-y-4 text-slate-600 dark:text-slate-400">
-              <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Email</p>
-                <a href="mailto:hello@lushstitches.com" className="block mt-2 transition hover:text-slate-950 dark:hover:text-white">
+            <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Contact</p>
+            <ul className="mt-6 space-y-3 text-sm text-brand-muted">
+              <li>
+                <a href="mailto:hello@lushstitches.com" className="transition hover:text-brand-charcoal">
                   hello@lushstitches.com
                 </a>
-              </div>
-              <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Phone</p>
-                <a href="tel:+919876543210" className="block mt-2 transition hover:text-slate-950 dark:hover:text-white">
+              </li>
+              <li>
+                <a href="tel:+919876543210" className="transition hover:text-brand-charcoal">
                   +91 98765 43210
                 </a>
-              </div>
-              <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Location</p>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">Mumbai, India</p>
-              </div>
-            </div>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone size={16} />
+                <span>Support hours 9am–6pm</span>
+              </li>
+            </ul>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200/80 bg-slate-100/80 p-6 shadow-xl shadow-slate-950/10 transition duration-500 dark:border-slate-700/70 dark:bg-slate-950/70 dark:shadow-none">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Newsletter</h3>
-            <p className="mt-4 text-slate-600 dark:text-slate-400">
-              Subscribe for exclusive drops, styling notes, and fashion alerts.
-            </p>
-            <div className="mt-6 space-y-4">
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  className="min-w-0 flex-1 rounded-full border border-slate-300 bg-white px-4 py-3 text-slate-950 placeholder:text-slate-500 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-500 dark:focus:ring-slate-700"
-                />
-                <button className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
-                  Subscribe
-                  <Send size={16} className="ml-2" />
-                </button>
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Stay Connected</p>
+            <div className="mt-6 grid gap-4">
+              <div className="flex items-start gap-3 rounded-[1.5rem] border border-brand-border bg-white/90 p-4 shadow-sm">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-charcoal text-brand-bg">
+                  <Sparkles size={20} />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-brand-charcoal">Exclusive drops</p>
+                  <p className="text-sm text-brand-muted">Be first to see new arrivals.</p>
+                </div>
               </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">No spam. Only premium launches and curated styling stories.</p>
+              <div className="flex items-start gap-3 rounded-[1.5rem] border border-brand-border bg-white/90 p-4 shadow-sm">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-charcoal text-brand-bg">
+                  <ShieldCheck size={20} />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-brand-charcoal">Secure checkout</p>
+                  <p className="text-sm text-brand-muted">Safe and trusted payment flow.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-slate-200/80 pt-8 text-sm text-slate-500 transition duration-500 dark:border-slate-800 dark:text-slate-400 sm:flex sm:items-center sm:justify-between">
-          <p>© 2026 Lush Stitches. All rights reserved.</p>
-          <p>Designed for refined fashion experiences.</p>
+        <div className="mt-10 border-t border-brand-border pt-8 text-sm text-brand-muted">
+          © 2026 Lush & Stitches. All rights reserved.
         </div>
       </div>
     </footer>
   )
 }
 
-export default Footer;
+export default Footer
